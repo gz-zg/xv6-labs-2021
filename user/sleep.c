@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     if(argc == 2)
     {
         sleep(atoi(argv[1]));
-        exit(0);
+        exit(0);  //xv6中的程序为什么需要确保 main函数 调用 exit() 退出程序？
     }
     else 
     {
