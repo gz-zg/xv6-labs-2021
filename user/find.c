@@ -22,8 +22,12 @@ void dfs(char *path, char *file)
         // 双重过滤：有效条目 + 非特殊目录
         if(de.inum == 0 || strcmp(de.name, ".") == 0 || strcmp(de.name, "..") == 0) continue;
         // 处理正常目录项
-        memmove(p, de.name, strlen(de.name)); //添加路径名称
-        p[strlen(de.name)] = '\0'; //字符串结束标志
+        
+        strcpy(p, de.name); // 使用strcpy添加路径名称，最后一个字符的后面会自动改成'\0'
+        /*
+            memmove(p, de.name, strlen(de.name)); // 使用memmove添加路径名称，最后一个字符的后面需要手动改成'\0'
+            p[strlen(de.name)] = '\0'; // '\0'是字符串结束标志，那字符串数组的结束标志是什么呢？其他类型数组的结束标志又是什么呢？
+        */
         stat(buf, &st);
         if(st.type == T_DIR) dfs(buf, file);
         else 
