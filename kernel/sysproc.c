@@ -105,7 +105,7 @@ sys_trace(void)
     return -1;
 
   struct proc *p = myproc();
-  (p -> trace_mask) |= mask;
+  (p -> trace_mask) = mask;
 
   printf("sys_trace: 开始追踪当前进程及其子进程的系统调用[%d]...\n", mask);
   
