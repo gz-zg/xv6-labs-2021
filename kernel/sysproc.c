@@ -100,6 +100,9 @@ sys_uptime(void)
 uint64 
 sys_trace(void)
 {
-  printf("sys_trace: hello!\n");
+  int syscall_num;
+  if(argint(0, &syscall_num) < 0)
+    return -1;
+  printf("sys_trace: 开始追踪当前进程及其子进程的系统调用[%d]...\n", syscall_num);
   return 0; 
 }
