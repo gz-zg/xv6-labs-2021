@@ -100,9 +100,14 @@ sys_uptime(void)
 uint64 
 sys_trace(void)
 {
-  int syscall_num;
-  if(argint(0, &syscall_num) < 0)
+  int mask;
+  if(argint(0, &mask) < 0)
     return -1;
-  printf("sys_trace: 开始追踪当前进程及其子进程的系统调用[%d]...\n", syscall_num);
+
+  struct proc *p = myproc();
+  (p -> trace_mask) |= mask;
+
+  printf("sys_trace: 开始追踪当前进程及其子进程的系统调用[%d]...\n", mask);
+  
   return 0; 
 }
