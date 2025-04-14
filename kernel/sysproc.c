@@ -111,3 +111,12 @@ sys_trace(void)
   
   return 0; 
 }
+
+// 在 kernel/sysproc.c 中添加一个 sys_sysinfo 函数
+uint64 
+sys_sysinfo(void)
+{
+  printf("sysinfo: 开始输出系统信息\n");
+  
+  return 0; 
+}
