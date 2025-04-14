@@ -54,6 +54,7 @@ argraw(int n)
 }
 
 // Fetch the nth 32-bit system call argument.
+// argint(int n, int *ip)：获取32位整型参数（int*）
 int
 argint(int n, int *ip)
 {
@@ -64,6 +65,7 @@ argint(int n, int *ip)
 // Retrieve an argument as a pointer.
 // Doesn't check for legality, since
 // copyin/copyout will do that.
+// argaddr(int n, uint64 *ip)：获取64位地址参数（uint64*）
 int
 argaddr(int n, uint64 *ip)
 {

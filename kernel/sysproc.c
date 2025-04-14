@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "sysinfo.h"
 
 uint64
 sys_exit(void)
@@ -112,11 +113,29 @@ sys_trace(void)
   return 0; 
 }
 
+
+extern uint64 acquire_nproc(void);
+extern uint64 acquire_freemem(void);
+
+
 // 在 kernel/sysproc.c 中添加一个 sys_sysinfo 函数
 uint64 
 sys_sysinfo(void)
 {
-  printf("sysinfo: 开始输出系统信息\n");
+  printf("sysinfo: 开始获取系统信息\n");
+
+  uint64 addr;
+  if(argaddr(0, &addr) < 0)
+    return -1;
   
+  struct sysinfo info;
+  info.nproc=acquire_nproc();
+  info.freemem=acquire_freemem();
+  
+  struct proc *p = myproc();
+
+  if(copyout(p->pagetable, addr, (char *)&info, sizeof(info)) < 0)
+    return -1;
+
   return 0; 
 }
