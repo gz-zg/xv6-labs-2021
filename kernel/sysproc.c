@@ -77,10 +77,53 @@ sys_sleep(void)
 
 
 #ifdef LAB_PGTBL
+
+pte_t *walk(pagetable_t pagetable, uint64 va, int alloc);
+
 int
 sys_pgaccess(void)
 {
   // lab pgtbl: your code here.
+  // 获取用户空间参数
+  uint64 base;
+  int len;
+  uint64 mask;
+  if(argaddr(0, &base) < 0)
+    return -1;
+  if(argint(1, &len) < 0)
+    return -1;
+  if(argaddr(2, &mask) < 0)
+    return -1;
+
+  // 检查参数
+  if(len>32 || len<0)
+    return -1;
+
+  // 计算结果
+  unsigned int v = 0U;
+  for(int i=0;i<len;i++)
+  {
+    uint64 va = base + i * PGSIZE;
+    if(va >= MAXVA)
+      continue;
+   
+    pte_t *pte;
+    pte = walk(myproc()->pagetable, va, 0);
+    if(pte == 0)
+      continue;
+    if((*pte & PTE_V) == 0)
+      continue;
+    if((*pte & PTE_A))
+    {
+      v |= (1U<<i);
+      *pte -= PTE_A;
+    }
+  }
+
+  // 将计算的结果写回用户空间
+  if(copyout(myproc()->pagetable, mask, (char *)&v, sizeof(v)) < 0)
+      return -1;
+
   return 0;
 }
 #endif
