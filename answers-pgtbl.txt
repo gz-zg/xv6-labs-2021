@@ -1,0 +1,14 @@
+== Test usertests == (348.9s) 
+== Test   usertests: all tests == 
+  usertests: all tests: FAIL 
+    ...
+         test forktest: OK
+         test bigdir: bigdir: bigdir link(bd, x00) failed
+         FAILED
+         SOME TESTS FAILED
+         $ qemu-system-riscv64: terminating on signal 15 from pid 1810176 (make)
+    MISSING '^ALL TESTS PASSED$'
+
+/**
+* usertests bigdir无法通过: 是 2021fall lab pgtbl 实验本身的设计缺陷，建议跳过，或者去做 2020fall lab pgtbl
+/
