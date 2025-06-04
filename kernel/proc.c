@@ -117,6 +117,9 @@ allocproc(void)
   return 0;
 
 found:
+  p->ticks = 0;
+  p->handler_runing = 0;
+
   p->pid = allocpid();
   p->state = USED;
 
