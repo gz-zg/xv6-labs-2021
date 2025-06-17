@@ -380,14 +380,14 @@ bmap(struct inode *ip, uint bn)
   uint addr, *a;
   struct buf *bp;
 
-  if(bn < NDIRECT){
+  if(bn < NDIRECT){ // 12
     if((addr = ip->addrs[bn]) == 0)
-      ip->addrs[bn] = addr = balloc(ip->dev);
+      ip->addrs[bn] = addr = balloc(ip->dev); // balloc返回的是磁盘块号
     return addr;
   }
   bn -= NDIRECT;
 
-  if(bn < NINDIRECT){
+  if(bn < NINDIRECT){ // 256
     // Load indirect block, allocating if necessary.
     if((addr = ip->addrs[NDIRECT]) == 0)
       ip->addrs[NDIRECT] = addr = balloc(ip->dev);
@@ -661,14 +661,14 @@ namex(char *path, int nameiparent, char *name)
 }
 
 struct inode*
-namei(char *path)
+namei(char *path) // 解析路径并返回最终文件/目录的 inode 的指针
 {
   char name[DIRSIZ];
   return namex(path, 0, name);
 }
 
 struct inode*
-nameiparent(char *path, char *name)
+nameiparent(char *path, char *name) // 解析路径并返回路径最后一级的父目录的 inode 的指针, 并将最后一级名称复制到 name 缓冲区
 {
   return namex(path, 1, name);
 }
