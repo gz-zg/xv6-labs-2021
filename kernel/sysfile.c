@@ -316,6 +316,7 @@ sys_open(void)
     }
   }
 
+  // 因为添加的这段代码会修改ip的值，所以它必须放在 f->ip = ip; 之前，这样 symlinktest 才不会报错
   if (ip->type == T_SYMLINK) {
       if ((omode & O_NOFOLLOW) == 0) {
           // recursively follow symlink
