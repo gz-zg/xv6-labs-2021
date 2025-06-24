@@ -82,7 +82,7 @@ usertrap(void)
       if((p->ticks) != 0)
       {
           (p->ticks_cnt)++;
-          if((p->ticks_cnt) >= (p->ticks) && (p->handler_runing) == 0)
+          if((p->ticks_cnt) == (p->ticks) && (p->handler_runing) == 0)
           {
               (p->ticks_cnt) = 0;
               (p->ticks_trapframe) = *(p->trapframe);
